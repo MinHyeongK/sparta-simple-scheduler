@@ -1,5 +1,6 @@
 package min.project.dto;
 
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import min.project.entity.Schedule;
@@ -21,5 +22,9 @@ public class ScheduleResponseDto {
         this.name = schedule.getName();
         this.createdAt = schedule.getCreatedAt();
         this.updatedAt = schedule.getUpdatedAt();
+    }
+
+    public static ScheduleResponseDto from(Schedule schedule){
+        return new ScheduleResponseDto(schedule.getTitle(), schedule.getContents(), schedule.getName(), schedule.getCreatedAt(), schedule.getUpdatedAt());
     }
 }

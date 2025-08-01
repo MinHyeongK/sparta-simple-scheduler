@@ -25,25 +25,20 @@ public class ScheduleController {
 
         Schedule createdSchedule = scheduleService.createSchedule(scheduleRequestDto);
 
-        return new ResponseEntity<>(new ScheduleResponseDto(createdSchedule), HttpStatus.OK);
+        return new ResponseEntity<>(new ScheduleResponseDto(createdSchedule), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> findSchedule(@PathVariable Long id){
 
-        try{
-            return new ResponseEntity<>(new ScheduleResponseDto(scheduleService.findSchedule(id)), HttpStatus.OK) ;
-        } catch (IllegalArgumentException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(new ScheduleResponseDto(scheduleService.findSchedule(id)), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<SchedulesResponseDto> findAllScheduleByName(@RequestParam(required = false) String name){
 
-        List<ScheduleResponseDto> scheduleList =  scheduleService.findAllScheduleByName(name);
-        scheduleList.sort(Comparator.comparing(ScheduleResponseDto::getUpdatedAt).reversed());
+        SchedulesResponseDto schedulesResponseDto = scheduleService.findAllScheduleByName(name);
 
-        return new ResponseEntity<>(new SchedulesResponseDto(scheduleList), HttpStatus.OK);
+        return new ResponseEntity<>(schedulesResponseDto, HttpStatus.OK);
     }
 }

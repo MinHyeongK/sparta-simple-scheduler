@@ -2,13 +2,14 @@ package min.project.dto;
 
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 public class SchedulesResponseDto {
-    private final List<ScheduleResponseDto> scheduleResponses ;
+    private List<ScheduleResponseDto> schedulesResponse ;
 
-    public SchedulesResponseDto(List<ScheduleResponseDto> schedules) {
-        this.scheduleResponses = schedules;
+    public SchedulesResponseDto(List<ScheduleResponseDto> schedulesResponse) {
+        this.schedulesResponse = schedulesResponse;
     }
 }
