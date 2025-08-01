@@ -87,40 +87,29 @@ Content-Type: application/json
 
 ### schedule
 
-```sql
-CREATE TABLE `schedule` (
-  `scheduleId`    INT            NOT NULL,
-  `title`         VARCHAR(255)   NOT NULL,
-  `contents`      VARCHAR(255)   NOT NULL,
-  `name`          VARCHAR(255)   NOT NULL,
-  `password`      VARCHAR(255)   NOT NULL,
-  `createdAt`     DATE           NOT NULL COMMENT '자동 생성',
-  `updatedAt`     DATE           NOT NULL COMMENT '자동 생성'
-);
+| 컬럼명          | 타입           | 제약조건                | 설명    |
+| ------------ | ------------ | ------------------- | ----- |
+| id           | BIGINT       | PK, AUTO\_INCREMENT | 식별자   |
+| name         | VARCHAR(255) | NOT NULL            | 작성자명  |
+| password     | VARCHAR(255) | NOT NULL            | 비밀번호  |
+| title        | VARCHAR(500) | NOT NULL            | 일정 제목 |
+| contents     | TEXT         | NOT NULL            | 일정 내용 |
+| created\_at  | TIMESTAMP    | NOT NULL            | 작성일   |
+| modified\_at | TIMESTAMP    | NOT NULL            | 수정일   |
 
-ALTER TABLE `schedule` ADD CONSTRAINT `PK_SCHEDULE` PRIMARY KEY (
-  `scheduleId`
-);
+
+---
 
 ### comment
 
-CREATE TABLE `comment` (
-  `commentId`     INT            NOT NULL,
-  `scheduleId`    INT            NOT NULL,
-  `contents`      VARCHAR(255)   NOT NULL,
-  `name`          VARCHAR(255)   NOT NULL,
-  `password`      VARCHAR(255)   NOT NULL,
-  `createdAt`     DATE           NOT NULL COMMENT '자동 생성',
-  `updatedAt`     DATE           NOT NULL COMMENT '자동 생성'
-);
+| 컬럼명          | 타입           | 제약조건                       | 설명       |
+| ------------ | ------------ | -------------------------- | -------- |
+| id           | BIGINT       | PK, AUTO\_INCREMENT        | 댓글 식별자   |
+| schedule\_id | BIGINT       | FK (schedule.id), NOT NULL | 일정 참조 ID |
+| name         | VARCHAR(255) | NOT NULL                   | 작성자명     |
+| password     | VARCHAR(255) | NOT NULL                   | 비밀번호     |
+| contents     | TEXT         | NOT NULL                   | 댓글 내용    |
+| created\_at  | TIMESTAMP    | NOT NULL                   | 작성일      |
+| modified\_at | TIMESTAMP    | NOT NULL                   | 수정일      |
 
-ALTER TABLE `comment` ADD CONSTRAINT `PK_COMMENT` PRIMARY KEY (
-  `commentId`,
-  `scheduleId`
-);
-
-ALTER TABLE `comment` ADD CONSTRAINT `FK_schedule_TO_comment_1` FOREIGN KEY (
-  `scheduleId`
-) REFERENCES `schedule` (
-  `scheduleId`
-);
+---
