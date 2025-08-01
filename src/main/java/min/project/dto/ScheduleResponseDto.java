@@ -5,7 +5,6 @@ import lombok.Getter;
 import min.project.entity.Schedule;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @AllArgsConstructor

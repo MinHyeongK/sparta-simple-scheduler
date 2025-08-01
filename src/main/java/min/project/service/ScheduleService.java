@@ -3,7 +3,6 @@ package min.project.service;
 import lombok.RequiredArgsConstructor;
 import min.project.dto.ScheduleRequestDto;
 import min.project.dto.ScheduleResponseDto;
-import min.project.dto.SchedulesResponseDto;
 import min.project.entity.Schedule;
 import min.project.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;

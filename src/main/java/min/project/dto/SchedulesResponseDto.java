@@ -1,8 +1,6 @@
 package min.project.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import min.project.entity.Schedule;
 
 import java.util.List;
 
