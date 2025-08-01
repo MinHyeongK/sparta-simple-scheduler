@@ -1,4 +1,4 @@
-# Simple Scheduler API
+# Simple Scheduler
 
 Spring Boot 기반의 간단한 일정 관리 REST API입니다.  
 Postman 컬렉션을 통해 직접 요청을 테스트할 수 있습니다.
@@ -78,3 +78,50 @@ Content-Type: application/json
 ## 주의 사항
 - 일부 요청 (`댓글 관련`)은 URL만 있고, body나 설명이 비어 있음
 - 실제 적용 전에 Swagger 또는 문서 보강 필요
+
+---
+
+# ERD
+
+---
+
+### schedule
+
+CREATE TABLE `schedule` (
+  `scheduleId`    INT            NOT NULL,
+  `title`         VARCHAR(255)   NOT NULL,
+  `contents`      VARCHAR(255)   NOT NULL,
+  `name`          VARCHAR(255)   NOT NULL,
+  `password`      VARCHAR(255)   NOT NULL,
+  `createdAt`     DATE           NOT NULL COMMENT '자동 생성',
+  `updatedAt`     DATE           NOT NULL COMMENT '자동 생성'
+);
+
+ALTER TABLE `schedule` ADD CONSTRAINT `PK_SCHEDULE` PRIMARY KEY (
+  `scheduleId`
+);
+
+---
+
+### comment
+
+CREATE TABLE `comment` (
+  `commentId`     INT            NOT NULL,
+  `scheduleId`    INT            NOT NULL,
+  `contents`      VARCHAR(255)   NOT NULL,
+  `name`          VARCHAR(255)   NOT NULL,
+  `password`      VARCHAR(255)   NOT NULL,
+  `createdAt`     DATE           NOT NULL COMMENT '자동 생성',
+  `updatedAt`     DATE           NOT NULL COMMENT '자동 생성'
+);
+
+ALTER TABLE `comment` ADD CONSTRAINT `PK_COMMENT` PRIMARY KEY (
+  `commentId`,
+  `scheduleId`
+);
+
+ALTER TABLE `comment` ADD CONSTRAINT `FK_schedule_TO_comment_1` FOREIGN KEY (
+  `scheduleId`
+) REFERENCES `schedule` (
+  `scheduleId`
+);
