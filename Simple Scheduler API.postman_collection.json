@@ -1,0 +1,230 @@
+{
+	"info": {
+		"_postman_id": "b223a0e3-c69f-45d4-ac38-f6129d23be80",
+		"name": "Simple Scheduler API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47201418"
+	},
+	"item": [
+		{
+			"name": "Create",
+			"item": [
+				{
+					"name": "일정 생성",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"제목\",\r\n    \"content\": \"내용\",\r\n    \"name\": \"이름\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}",
+							"host": [
+								"{{baseURL}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "댓글 생성 -",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/schedules/{postId}/comments/{commentId}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"schedules",
+								"{postId}",
+								"comments",
+								"{commentId}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Read",
+			"item": [
+				{
+					"name": "단건 일정 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}?id=1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "전체 일정 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}",
+							"host": [
+								"{{baseURL}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "댓글 조회 -",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update",
+			"item": [
+				{
+					"name": "일정 전체 수정",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // 수정할 내용\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}?id=1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "일정 일부 수정",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // 수정할 내용\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}?id=1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "댓글 수정 -",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"item": [
+				{
+					"name": "일정 삭제",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}?id=1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "댓글 삭제 -",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "localhost:8080",
+			"type": "default"
+		}
+	]
+}
