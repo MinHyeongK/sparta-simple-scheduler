@@ -81,12 +81,13 @@ Content-Type: application/json
 
 ---
 
-# ERD
+## Database Schema
 
 ---
 
 ### schedule
 
+```sql
 CREATE TABLE `schedule` (
   `scheduleId`    INT            NOT NULL,
   `title`         VARCHAR(255)   NOT NULL,
@@ -100,8 +101,6 @@ CREATE TABLE `schedule` (
 ALTER TABLE `schedule` ADD CONSTRAINT `PK_SCHEDULE` PRIMARY KEY (
   `scheduleId`
 );
-
----
 
 ### comment
 
