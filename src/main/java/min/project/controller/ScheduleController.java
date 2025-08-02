@@ -1,6 +1,7 @@
 package min.project.controller;
 
 import lombok.RequiredArgsConstructor;
+import min.project.dto.PasswordDto;
 import min.project.dto.ScheduleRequestDto;
 import min.project.dto.ScheduleResponseDto;
 import min.project.dto.SchedulesResponseDto;
@@ -46,5 +47,11 @@ public class ScheduleController {
         ScheduleResponseDto responseDto = scheduleService.updateSchedule(id, dto.getTitle(), dto.getName(), dto.getPassword());
 
         return new ResponseEntity<>(new ScheduleResponseDto(responseDto.getTitle(),responseDto.getName(), responseDto.getUpdatedAt()), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteSchedule(@PathVariable Long id,
+                                         @RequestBody PasswordDto dto){
+        scheduleService.deleteSchedule(id, dto.getPassword());
     }
 }

@@ -26,7 +26,6 @@ public class Schedule extends BaseTimeEntity{
         this.password = password;
     }
 
-    // TODO: 이렇게 하면 안되는거 같은데
     public void updateName(String name) {
         this.name = name;
     }

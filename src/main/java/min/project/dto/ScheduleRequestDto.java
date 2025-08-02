@@ -15,4 +15,8 @@ public class ScheduleRequestDto {
     public Schedule toEntity(ScheduleRequestDto dto){
         return new Schedule(dto.getTitle(), dto.getContents(), dto.getName(), dto.getPassword());
     }
+
+    public String fromJason(String password){
+        return getPassword();
+    }
 }
