@@ -1,20 +1,21 @@
 package min.project.dto;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import min.project.entity.Schedule;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class ScheduleResponseDto {
-    private final String title;
-    private final String contents;
-    private final String name;
-    private final LocalDateTime createdAt;
-    private final LocalDateTime updatedAt;
+    private String title;
+    private String contents;
+    private String name;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public ScheduleResponseDto(Schedule schedule) {
         this.title = schedule.getTitle();
@@ -22,6 +23,19 @@ public class ScheduleResponseDto {
         this.name = schedule.getName();
         this.createdAt = schedule.getCreatedAt();
         this.updatedAt = schedule.getUpdatedAt();
+    }
+
+    public ScheduleResponseDto(String title, String name, LocalDateTime updatedAt){
+        this.title = title;
+        this.name = name;
+        this.updatedAt = updatedAt;
+    }
+
+    public ScheduleResponseDto(String title, String name, LocalDateTime createdAt, LocalDateTime updatedAt){
+        this.title = title;
+        this.name = name;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public static ScheduleResponseDto from(Schedule schedule){

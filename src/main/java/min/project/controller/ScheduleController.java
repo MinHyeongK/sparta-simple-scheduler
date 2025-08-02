@@ -10,9 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
-import java.util.List;
-
 @RestController
 @RequestMapping("/schedules")
 @RequiredArgsConstructor
@@ -40,5 +37,14 @@ public class ScheduleController {
         SchedulesResponseDto schedulesResponseDto = scheduleService.findAllScheduleByName(name);
 
         return new ResponseEntity<>(schedulesResponseDto, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(@PathVariable Long id,
+                                                               @RequestBody ScheduleRequestDto dto){
+
+        ScheduleResponseDto responseDto = scheduleService.updateSchedule(id, dto.getTitle(), dto.getName(), dto.getPassword());
+
+        return new ResponseEntity<>(new ScheduleResponseDto(responseDto.getTitle(),responseDto.getName(), responseDto.getUpdatedAt()), HttpStatus.OK);
     }
 }
