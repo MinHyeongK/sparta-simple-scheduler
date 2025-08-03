@@ -1,15 +1,13 @@
 package min.project.controller;
 
 import lombok.RequiredArgsConstructor;
-import min.project.dto.PasswordDto;
-import min.project.dto.ScheduleRequestDto;
-import min.project.dto.ScheduleResponseDto;
-import min.project.dto.SchedulesResponseDto;
-import min.project.entity.Schedule;
+import min.project.dto.*;
 import min.project.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/schedules")
@@ -19,39 +17,37 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto){
+    public ResponseEntity<ScheduleCreateResponseDto> createSchedule(@RequestBody ScheduleCreateRequestDto dto){
 
-        Schedule createdSchedule = scheduleService.createSchedule(scheduleRequestDto);
+        ScheduleCreateResponseDto created = scheduleService.createSchedule(dto);
 
-        return new ResponseEntity<>(new ScheduleResponseDto(createdSchedule), HttpStatus.CREATED);
+        return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> findSchedule(@PathVariable Long id){
+    public ResponseEntity<ScheduleFindResponseDto> findSchedule(@PathVariable Long id){
 
-        return new ResponseEntity<>(new ScheduleResponseDto(scheduleService.findSchedule(id)), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.findSchedule(id), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<SchedulesResponseDto> findAllScheduleByName(@RequestParam(required = false) String name){
+    public ResponseEntity<List<ScheduleFindResponseDto>> findAllScheduleByName(@RequestParam(required = false) String name){
 
-        SchedulesResponseDto schedulesResponseDto = scheduleService.findAllScheduleByName(name);
+        List<ScheduleFindResponseDto> schedules = scheduleService.findAllScheduleByName(name);
 
-        return new ResponseEntity<>(schedulesResponseDto, HttpStatus.OK);
+        return new ResponseEntity<>(schedules, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> updateSchedule(@PathVariable Long id,
-                                                               @RequestBody ScheduleRequestDto dto){
+    public ResponseEntity<ScheduleUpdateResponseDto> updateSchedule(@PathVariable Long id,
+                                                               @RequestBody ScheduleUpdateRequestDto dto){
 
-        ScheduleResponseDto responseDto = scheduleService.updateSchedule(id, dto.getTitle(), dto.getName(), dto.getPassword());
-
-        return new ResponseEntity<>(new ScheduleResponseDto(responseDto.getTitle(),responseDto.getName(), responseDto.getUpdatedAt()), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.updateSchedule(id, dto), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public void deleteSchedule(@PathVariable Long id,
-                                         @RequestBody PasswordDto dto){
+                                         @RequestBody ScheduleDeleteRequestDto dto){
         scheduleService.deleteSchedule(id, dto.getPassword());
     }
 }

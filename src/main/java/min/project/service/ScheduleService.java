@@ -1,9 +1,8 @@
 package min.project.service;
 
 import lombok.RequiredArgsConstructor;
-import min.project.dto.ScheduleRequestDto;
-import min.project.dto.ScheduleResponseDto;
-import min.project.dto.SchedulesResponseDto;
+import lombok.extern.slf4j.Slf4j;
+import min.project.dto.*;
 import min.project.entity.Schedule;
 import min.project.repository.ScheduleRepository;
 import org.springframework.http.HttpStatus;
@@ -13,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
@@ -20,54 +20,56 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
     @Transactional
-    public Schedule createSchedule(ScheduleRequestDto dto){
+    public ScheduleCreateResponseDto createSchedule(ScheduleCreateRequestDto dto){
 
-        return scheduleRepository.save(dto.toEntity(dto));
+        Schedule schedule = scheduleRepository.save(dto.toCreateEntity());
+
+        return new ScheduleCreateResponseDto(schedule);
     }
 
     //TODO: refact: ErrorCode: 500 => 400
     @Transactional(readOnly = true)
-    public Schedule findSchedule(Long id){
-        return scheduleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 id값"));
+    public ScheduleFindResponseDto findSchedule(Long id){
+
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 id값"));
+
+        return new ScheduleFindResponseDto(schedule);
     }
 
-    //TODO: refact: class separation
     @Transactional(readOnly = true)
-    public SchedulesResponseDto findAllScheduleByName(String name){
+    public List<ScheduleFindResponseDto> findAllScheduleByName(String name){
 
-        List<Schedule> schedules = scheduleRepository.findAllByName(name);
-        List<ScheduleResponseDto> schedulesResponseDto = new ArrayList<>();
+        List<Schedule> original = scheduleRepository.findAllByName(name);
 
-        for (Schedule schedule : schedules) {
-            schedulesResponseDto.add(new ScheduleResponseDto(schedule));
+        original.sort(Comparator.comparing(Schedule::getCreatedAt).reversed());
+
+        List<ScheduleFindResponseDto> found = new ArrayList<>();
+        for (Schedule schedule : original) {
+            found.add(new ScheduleFindResponseDto(schedule));
         }
 
-        schedulesResponseDto.sort(Comparator.comparing(ScheduleResponseDto::getUpdatedAt).reversed());
-
-        return new SchedulesResponseDto(schedulesResponseDto);
+        return found;
     }
 
+    // question: Optional 사용 X 방법 (뭐가 더 좋은 방법일까요?)
     @Transactional
-    public ScheduleResponseDto updateSchedule(Long id, String title, String name, String password){
+    public ScheduleUpdateResponseDto updateSchedule(Long id, ScheduleUpdateRequestDto dto){
 
         Schedule schedule = scheduleRepository.findById(id).
                 orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "id 없다고"));
 
-        ValidationService.validate(schedule.getPassword(), password);
+        ValidationService.validate(schedule.getPassword(), dto.getPassword());
 
-        schedule.updateName(name);
-        schedule.updateTitle(title);
+        schedule.updateName(dto.getName());
+        schedule.updateTitle(dto.getTitle());
 
-        scheduleRepository.save(schedule);
-
-        return new ScheduleResponseDto(schedule);
+        return new ScheduleUpdateResponseDto(scheduleRepository.save(schedule));
     }
 
+    // question : Optional 사용 O 방법 (뭐가 더 좋은 방법일까요?)
     @Transactional
     public void deleteSchedule(Long id, String password){
         Optional<Schedule> foundSchedule = scheduleRepository.findById(id);
-
-
 
         if(foundSchedule.isPresent()){
             ValidationService.validate(foundSchedule.get().getPassword(), password);

@@ -7,7 +7,7 @@ public class ValidationService {
 
     public static void validate(String password, String targetPassword){
         if (!password.equals(targetPassword)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "비밀번호 다르다.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "비밀번호 다르다.");
         }
     }
 }
