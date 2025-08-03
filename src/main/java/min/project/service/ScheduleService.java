@@ -18,32 +18,32 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
     @Transactional
-    public ScheduleCreateResponseDto createSchedule(ScheduleCreateRequestDto dto){
+    public ScheduleResponseDto createSchedule(ScheduleCreateRequestDto dto){
 
         Schedule schedule = scheduleRepository.save(dto.toCreateEntity());
 
-        return new ScheduleCreateResponseDto(schedule);
+        return new ScheduleResponseDto(schedule);
     }
 
     //TODO: refact: ErrorCode: 500 => 400
     @Transactional(readOnly = true)
-    public ScheduleFindResponseDto findSchedule(Long id){
+    public ScheduleResponseDto findSchedule(Long id){
 
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 id값"));
 
-        return new ScheduleFindResponseDto(schedule);
+        return new ScheduleResponseDto(schedule);
     }
 
     @Transactional(readOnly = true)
-    public List<ScheduleFindResponseDto> findAllScheduleByName(String name){
+    public List<ScheduleResponseDto> findAllScheduleByName(String name){
 
         List<Schedule> original = scheduleRepository.findAllByName(name);
 
         original.sort(Comparator.comparing(Schedule::getCreatedAt).reversed());
 
-        List<ScheduleFindResponseDto> found = new ArrayList<>();
+        List<ScheduleResponseDto> found = new ArrayList<>();
         for (Schedule schedule : original) {
-            found.add(new ScheduleFindResponseDto(schedule));
+            found.add(new ScheduleResponseDto(schedule));
         }
 
         return found;
@@ -51,7 +51,7 @@ public class ScheduleService {
 
     // question: Optional 사용 X 방법 (뭐가 더 좋은 방법일까요?)
     @Transactional
-    public ScheduleUpdateResponseDto updateSchedule(Long id, ScheduleUpdateRequestDto dto){
+    public ScheduleResponseDto updateSchedule(Long id, ScheduleUpdateRequestDto dto){
 
         Schedule schedule = scheduleRepository.findById(id).
                 orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "id 없다고"));
@@ -60,7 +60,7 @@ public class ScheduleService {
 
         schedule.updateSchedule(dto.getName(), dto.getTitle());
 
-        return new ScheduleUpdateResponseDto(scheduleRepository.save(schedule));
+        return new ScheduleResponseDto(scheduleRepository.save(schedule));
     }
 
     // question : Optional 사용 O 방법 (뭐가 더 좋은 방법일까요?)

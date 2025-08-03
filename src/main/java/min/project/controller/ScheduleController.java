@@ -17,29 +17,29 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity<ScheduleCreateResponseDto> createSchedule(@RequestBody ScheduleCreateRequestDto dto){
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleCreateRequestDto dto){
 
-        ScheduleCreateResponseDto created = scheduleService.createSchedule(dto);
+        ScheduleResponseDto created = scheduleService.createSchedule(dto);
 
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ScheduleFindResponseDto> findSchedule(@PathVariable Long id){
+    public ResponseEntity<ScheduleResponseDto> findSchedule(@PathVariable Long id){
 
         return new ResponseEntity<>(scheduleService.findSchedule(id), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<ScheduleFindResponseDto>> findAllScheduleByName(@RequestParam(required = false) String name){
+    public ResponseEntity<List<ScheduleResponseDto>> findAllScheduleByName(@RequestParam(required = false) String name){
 
-        List<ScheduleFindResponseDto> schedules = scheduleService.findAllScheduleByName(name);
+        List<ScheduleResponseDto> schedules = scheduleService.findAllScheduleByName(name);
 
         return new ResponseEntity<>(schedules, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ScheduleUpdateResponseDto> updateSchedule(@PathVariable Long id,
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(@PathVariable Long id,
                                                                @RequestBody ScheduleUpdateRequestDto dto){
 
         return new ResponseEntity<>(scheduleService.updateSchedule(id, dto), HttpStatus.OK);
