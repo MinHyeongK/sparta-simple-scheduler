@@ -30,11 +30,8 @@ public class Schedule extends BaseTimeEntity{
         super();
     }
 
-    public void updateName(String name) {
+    public void updateSchedule(String name, String title) {
         this.name = name;
-    }
-
-    public void updateTitle(String title){
         this.title = title;
     }
 }

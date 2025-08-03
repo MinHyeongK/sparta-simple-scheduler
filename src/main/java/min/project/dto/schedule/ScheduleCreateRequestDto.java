@@ -1,4 +1,4 @@
-package min.project.dto;
+package min.project.dto.schedule;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

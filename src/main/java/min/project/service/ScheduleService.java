@@ -1,8 +1,7 @@
 package min.project.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import min.project.dto.*;
+import min.project.dto.schedule.*;
 import min.project.entity.Schedule;
 import min.project.repository.ScheduleRepository;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
@@ -60,8 +58,7 @@ public class ScheduleService {
 
         ValidationService.validate(schedule.getPassword(), dto.getPassword());
 
-        schedule.updateName(dto.getName());
-        schedule.updateTitle(dto.getTitle());
+        schedule.updateSchedule(dto.getName(), dto.getTitle());
 
         return new ScheduleUpdateResponseDto(scheduleRepository.save(schedule));
     }

@@ -1,7 +1,7 @@
 package min.project.controller;
 
 import lombok.RequiredArgsConstructor;
-import min.project.dto.*;
+import min.project.dto.schedule.*;
 import min.project.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

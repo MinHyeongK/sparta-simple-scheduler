@@ -1,5 +1,4 @@
-package min.project.dto;
-
+package min.project.dto.schedule;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,14 +8,14 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class ScheduleCreateResponseDto {
-    private final String title;
+public class ScheduleFindResponseDto {
     private final String contents;
+    private final String title;
     private final String name;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    public ScheduleCreateResponseDto(Schedule schedule) {
+    public ScheduleFindResponseDto(Schedule schedule) {
         this.title = schedule.getTitle();
         this.contents = schedule.getContents();
         this.name = schedule.getName();
