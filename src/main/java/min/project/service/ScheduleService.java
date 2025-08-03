@@ -1,6 +1,7 @@
 package min.project.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import min.project.dto.schedule.*;
 import min.project.entity.Schedule;
 import min.project.repository.ScheduleRepository;
@@ -11,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
@@ -60,7 +62,7 @@ public class ScheduleService {
 
         schedule.updateSchedule(dto.getName(), dto.getTitle());
 
-        return new ScheduleResponseDto(scheduleRepository.save(schedule));
+        return new ScheduleResponseDto(scheduleRepository.saveAndFlush(schedule));
     }
 
     // question : Optional 사용 O 방법 (뭐가 더 좋은 방법일까요?)

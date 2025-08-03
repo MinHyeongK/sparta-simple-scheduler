@@ -25,15 +25,4 @@ public class Comment extends BaseTimeEntity{
         this.password = dto.getPassword();
         this.scheduleId = scheduleId;
     }
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", contents='" + contents + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", scheduleId=" + scheduleId +
-                '}';
-    }
 }
