@@ -3,7 +3,9 @@ package min.project.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import min.project.dto.schedule.*;
+import min.project.entity.Comment;
 import min.project.entity.Schedule;
+import min.project.repository.CommentRepository;
 import min.project.repository.ScheduleRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.*;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public ScheduleResponseDto createSchedule(ScheduleCreateRequestDto dto){
@@ -29,11 +32,13 @@ public class ScheduleService {
 
     //TODO: refact: ErrorCode: 500 => 400
     @Transactional(readOnly = true)
-    public ScheduleResponseDto findSchedule(Long id){
+    public ScheduleFindResponseDto findSchedule(Long id){
+
+        List<Comment> comments = commentRepository.findAllByScheduleId(id);
 
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 id값"));
 
-        return new ScheduleResponseDto(schedule);
+        return new ScheduleFindResponseDto(schedule, comments);
     }
 
     @Transactional(readOnly = true)

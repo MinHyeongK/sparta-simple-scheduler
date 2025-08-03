@@ -10,20 +10,22 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class ScheduleResponseDto {
+public class ScheduleFindResponseDto {
     private final Long id;
     private final String title;
     private final String contents;
     private final String name;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
+    private final List<Comment> comments;
 
-    public ScheduleResponseDto(Schedule schedule) {
+    public ScheduleFindResponseDto(Schedule schedule, List<Comment> comments) {
         this.id = schedule.getId();
         this.title = schedule.getTitle();
         this.contents = schedule.getContents();
         this.name = schedule.getName();
         this.createdAt = schedule.getCreatedAt();
         this.updatedAt = schedule.getUpdatedAt();
+        this.comments = comments;
     }
 }

@@ -14,9 +14,7 @@ public class CommentService {
 
     public CommentResponseDto createComment(Long scheduleId, CommentCreateRequestDto dto){
 
-        if(commentRepository.countAllByScheduleId(scheduleId) > 9) {
-            throw new IllegalStateException("댓글은 최대 10개다잉");
-        }
+        if(commentRepository.countAllByScheduleId(scheduleId) > 9) throw new IllegalStateException("댓글은 최대 10개다잉");
 
         return new CommentResponseDto(commentRepository.save(new Comment(dto, scheduleId)));
     }
