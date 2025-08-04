@@ -12,8 +12,7 @@
 - Build Tool: Gradle
 - DATABASE: MySQL
 - IDE: Intellij IDEA
--Annotation: Lombok
-- 
+- Annotation: Lombok
 ---
 
 ## 주요 기능
