@@ -3,7 +3,6 @@ package min.project.dto.comment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import min.project.entity.Comment;
-
 import java.time.LocalDateTime;
 
 @Getter

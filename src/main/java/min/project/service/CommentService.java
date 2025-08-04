@@ -5,6 +5,7 @@ import min.project.dto.comment.CommentCreateRequestDto;
 import min.project.dto.comment.CommentResponseDto;
 import min.project.entity.Comment;
 import min.project.repository.CommentRepository;
+import min.project.util.ValidationUtil;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +15,8 @@ public class CommentService {
 
     public CommentResponseDto createComment(Long scheduleId, CommentCreateRequestDto dto){
 
-        if(commentRepository.countAllByScheduleId(scheduleId) > 9) throw new IllegalStateException("댓글은 최대 10개다잉");
+        ValidationUtil.validateCommentContentsLength(dto.getContents());
+        ValidationUtil.validateCommentCountLimit(commentRepository.countAllByScheduleId(scheduleId));
 
         return new CommentResponseDto(commentRepository.save(new Comment(dto, scheduleId)));
     }

@@ -7,12 +7,14 @@ import min.project.entity.Comment;
 import min.project.entity.Schedule;
 import min.project.repository.CommentRepository;
 import min.project.repository.ScheduleRepository;
+import min.project.util.ValidationUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
+
 
 @Slf4j
 @Service
@@ -25,12 +27,15 @@ public class ScheduleService {
     @Transactional
     public ScheduleResponseDto createSchedule(ScheduleCreateRequestDto dto){
 
+        ValidationUtil.validateTitleLength(dto.getTitle());
+        ValidationUtil.validateScheduleContentsLength(dto.getContents());
+        ValidationUtil.isExistNameAndPassword(dto.getName(), dto.getPassword());
+
         Schedule schedule = scheduleRepository.save(dto.toCreateEntity());
 
         return new ScheduleResponseDto(schedule);
     }
 
-    //TODO: refact: ErrorCode: 500 => 400
     @Transactional(readOnly = true)
     public ScheduleFindResponseDto findSchedule(Long id){
 
@@ -44,42 +49,40 @@ public class ScheduleService {
     @Transactional(readOnly = true)
     public List<ScheduleResponseDto> findAllScheduleByName(String name){
 
-        List<Schedule> original = scheduleRepository.findAllByName(name);
+        List<Schedule> fetchedSchedules = scheduleRepository.findAllByName(name);
 
-        original.sort(Comparator.comparing(Schedule::getCreatedAt).reversed());
+        fetchedSchedules.sort(Comparator.comparing(Schedule::getCreatedAt).reversed());
 
-        List<ScheduleResponseDto> found = new ArrayList<>();
-        for (Schedule schedule : original) {
-            found.add(new ScheduleResponseDto(schedule));
+        List<ScheduleResponseDto> schedules = new ArrayList<>();
+        for (Schedule schedule : fetchedSchedules) {
+            schedules.add(new ScheduleResponseDto(schedule));
         }
 
-        return found;
+        return schedules;
     }
 
-    // question: Optional 사용 X 방법 (뭐가 더 좋은 방법일까요?)
     @Transactional
     public ScheduleResponseDto updateSchedule(Long id, ScheduleUpdateRequestDto dto){
+        ValidationUtil.isExistNameAndPassword(dto.getName(), dto.getPassword());
+        ValidationUtil.validateTitleLength(dto.getTitle());
 
         Schedule schedule = scheduleRepository.findById(id).
                 orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "id 없다고"));
 
-        ValidationService.validate(schedule.getPassword(), dto.getPassword());
+        ValidationUtil.validatePassword(schedule.getPassword(), dto.getPassword());
 
         schedule.updateSchedule(dto.getName(), dto.getTitle());
 
         return new ScheduleResponseDto(scheduleRepository.saveAndFlush(schedule));
     }
 
-    // question : Optional 사용 O 방법 (뭐가 더 좋은 방법일까요?)
     @Transactional
     public void deleteSchedule(Long id, String password){
-        Optional<Schedule> foundSchedule = scheduleRepository.findById(id);
+        Optional<Schedule> optionalSchedule = scheduleRepository.findById(id);
 
-        if(foundSchedule.isPresent()){
-            ValidationService.validate(foundSchedule.get().getPassword(), password);
+        if(optionalSchedule.isPresent()){
+            ValidationUtil.validatePassword(optionalSchedule.get().getPassword(), password);
             scheduleRepository.deleteById(id);
-        }else{
-            throw new NoSuchElementException("해당 id를 찾을 수 없습니다.");
-        }
+        }else throw new NoSuchElementException("해당 id를 찾을 수 없습니다.");
     }
 }
