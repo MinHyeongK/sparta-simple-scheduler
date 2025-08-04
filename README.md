@@ -26,6 +26,7 @@
 ---
 
 ## 디렉터리 구조
+```
 src/
 └── main/
 ├── java/
@@ -60,7 +61,7 @@ src/
 ├── static/                      # 정적 리소스 (js, css 등)
 ├── templates/                   # 템플릿 (html 등)
 └── application.yml              # 환경 설정 파일
-
+```
 ---
 
 ## 실행 방법
